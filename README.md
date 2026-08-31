@@ -55,7 +55,7 @@ npm start                      # http://localhost:4200
 ### 3. Tests
 
 ```bash
-cd backend  && python -m pytest -q      # 21 tests
+cd backend  && pytest -q                # 21 tests
 cd frontend && npm test                 # 8 tests (vitest)
 ```
 
