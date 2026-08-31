@@ -1,0 +1,142 @@
+<div class="page">
+  <header>
+    <h1>Song Catalog</h1>
+    <p>
+      25 songs reconciled from two disagreeing exports. Values the normalizer could not
+      trust are shown as <span class="unknown">—</span> and tagged, never guessed.
+    </p>
+  </header>
+
+  @if (error()) {
+    <p-message severity="error">{{ error()! }}</p-message>
+  }
+
+  <!-- ── Table ──────────────────────────────────────────────────────────── -->
+  <section class="card">
+    <div class="toolbar">
+      <h2 style="margin:0">All songs</h2>
+      <span class="spacer"></span>
+      <p-button label="CSV (this page)" icon="pi pi-download" size="small"
+                severity="secondary" (onClick)="exportPage()" />
+      <p-button label="CSV (all rows)" icon="pi pi-download" size="small"
+                severity="secondary" [outlined]="true" (onClick)="exportAll()" />
+    </div>
+
+    <!--
+      lazy + totalRecords: paging and sorting are decided by the API over the
+      full dataset. The table only ever holds the ten rows it is showing.
+    -->
+    <p-table [value]="songs()" [lazy]="true" (onLazyLoad)="onLazyLoad($event)"
+             [loading]="loading()" [paginator]="true" [rows]="pageSize"
+             [totalRecords]="total()" sortField="title" [sortOrder]="1"
+             [tableStyle]="{ 'min-width': '80rem' }" styleClass="p-datatable-sm"
+             currentPageReportTemplate="{first}–{last} of {totalRecords}"
+             [showCurrentPageReport]="true">
+
+      <ng-template #header>
+        <tr>
+          @for (col of columns; track col.field) {
+            <th [pSortableColumn]="col.field">
+              {{ col.header }} <p-sort-icon [field]="col.field" />
+            </th>
+          }
+          <th style="width:11rem">Rating</th>
+          <th style="width:16rem">Data quality</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-song>
+        <tr>
+          @for (col of columns; track col.field) {
+            <td [class.unknown]="song[col.field] === null">
+              {{ cell(song, col.field, col.kind) }}
+            </td>
+          }
+          <td>
+            <p-rating [ngModel]="song.rating" [ngModelOptions]="{ standalone: true }"
+                      (onRate)="onRate(song, $event.value)" />
+          </td>
+          <td>
+            <div class="flags">
+              @for (flag of song.flags; track flag) {
+                <p-tag [value]="flagLabel(flag)" [severity]="flagSeverity(flag)" />
+              } @empty {
+                <span class="unknown">clean</span>
+              }
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <tr><td [attr.colspan]="columns.length + 2">No songs to show.</td></tr>
+      </ng-template>
+    </p-table>
+  </section>
+
+  <!-- ── Title search ───────────────────────────────────────────────────── -->
+  <section class="card">
+    <h2>Find a song by title</h2>
+    <div class="toolbar">
+      <input pInputText [(ngModel)]="query" placeholder="e.g. perfect"
+             (keyup.enter)="onSearch()" style="min-width:18rem" />
+      <p-button label="Get Song" icon="pi pi-search" (onClick)="onSearch()" />
+      <p-button label="Clear" severity="secondary" [text]="true" (onClick)="clearSearch()" />
+    </div>
+
+    @if (search(); as result) {
+      <div class="search-result">
+        @switch (result.match_type) {
+          @case ('none') {
+            <p-message severity="warn">{{ 'No song matches “' + result.query + '”.' }}</p-message>
+          }
+          @case ('partial') {
+            <p-message severity="info">{{ 'No exact title match — showing ' + result.count + ' song(s) containing “' + result.query + '”.' }}</p-message>
+          }
+          @default {
+            @if (result.count > 1) {
+              <p-message severity="info">{{ result.count + ' songs share this title. They are different recordings — compare the ids.' }}</p-message>
+            }
+          }
+        }
+
+        @if (result.count) {
+          <p-table [value]="result.matches" styleClass="p-datatable-sm" [tableStyle]="{ 'margin-top': '.75rem' }">
+            <ng-template #header>
+              <tr>
+                <th>Id</th>
+                @for (col of columns; track col.field) { <th>{{ col.header }}</th> }
+              </tr>
+            </ng-template>
+            <ng-template #body let-song>
+              <tr>
+                <td><code>{{ song.id }}</code></td>
+                @for (col of columns; track col.field) {
+                  <td [class.unknown]="song[col.field] === null">{{ cell(song, col.field, col.kind) }}</td>
+                }
+              </tr>
+            </ng-template>
+          </p-table>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- ── Charts ─────────────────────────────────────────────────────────── -->
+  <div class="charts">
+    <section class="card">
+      <h2>Danceability vs energy</h2>
+      <p-chart type="scatter" [data]="scatterData()" [options]="scatterOptions" height="300px" />
+      <p class="note">{{ missingNote() }}</p>
+    </section>
+
+    <section class="card">
+      <h2>What the two exports got wrong</h2>
+      <p-chart type="bar" [data]="qualityData()" [options]="barOptions" height="300px" />
+      <p class="note">
+        Count of values per attribute that were missing, out of range, or a sentinel
+        such as <code>"N/A"</code> — dropped rather than guessed.
+      </p>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+.page { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+
+header h1 { margin: 0 0 .25rem; font-size: 1.5rem; }
+header p { margin: 0 0 1.25rem; color: #667085; font-size: .9rem; }
+
+.card {
+  background: #fff; border: 1px solid #e6e8ec; border-radius: 10px;
+  padding: 1rem 1.1rem; margin-bottom: 1.25rem;
+}
+.card h2 { margin: 0 0 .75rem; font-size: 1rem; font-weight: 600; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.toolbar .spacer { flex: 1 1 auto; }
+
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+@media (max-width: 900px) { .charts { grid-template-columns: 1fr; } }
+
+/* A value we refused to trust is shown as a dash, never as 0 or a guess. */
+.unknown { color: #b0b6c0; }
+.flags { display: flex; flex-wrap: wrap; gap: .25rem; }
+.note { color: #667085; font-size: .8rem; margin: .5rem 0 0; }
+.search-result { margin-top: .75rem; }

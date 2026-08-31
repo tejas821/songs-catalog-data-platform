@@ -1,0 +1,34 @@
+{
+  "songs_in": {
+    "part1": 16,
+    "part2": 13
+  },
+  "songs_out": 25,
+  "overlapping_ids": 4,
+  "rows_dropped": [],
+  "conflicts": [
+    {
+      "id": "4uLU6hMCjMI75M1A2tKUQC",
+      "title": "Never Gonna Give You Up",
+      "field": "danceability",
+      "kept": 0.74,
+      "discarded": 0.727,
+      "winner": "part2"
+    }
+  ],
+  "duplicate_titles": [
+    "Perfect"
+  ],
+  "flagged_values": [
+    "acousticness:missing",
+    "acousticness:out_of_range(-0.05)",
+    "danceability:conflict",
+    "danceability:out_of_range(1.42)",
+    "duration_ms:seconds_converted(158s)",
+    "duration_ms:seconds_converted(270s)",
+    "duration_ms:seconds_converted(356s)",
+    "energy:missing",
+    "energy:missing",
+    "tempo:implausible(0.0)"
+  ]
+}
