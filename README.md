@@ -101,7 +101,7 @@ frontend/src/app/
   csv.ts               CSV export with RFC-4180 quoting
   app.ts / app.html    the dashboard
 data/                  the two source exports + generated songs.json, ratings.json, report
-review_buggy_api.py    the file reviewed in REVIEW.md (unmodified)
+review/buggy_api.py     the file reviewed in REVIEW.md (unmodified)
 ```
 
 ## Known limits
