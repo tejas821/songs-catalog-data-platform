@@ -430,14 +430,11 @@ the wrong thing — not-found reported as success, a rating landing on the wrong
 out-of-range star accepted. Nothing in an error budget or an alerting rule ever fires on
 them.
 
-**On AI in this review — correcting the record.** The review was done in a single pass.
-There was **no separate AI second-opinion round**. The closing section of the committed
-REVIEW.md claims otherwise — that a second AI pass "cried wolf" on the mutable default
-argument and "missed" the sort bug — and **that exchange did not happen**; it is
-plausible-sounding narrative, not a record. It is flagged for removal, along with the
-matching fabrication in REFLECTION.md §2. See PROMPTS.md §7. What *is* honestly
-documented about AI error in this session is the PrimeNG version drift in PROMPTS.md §6,
-which is verifiable against the build output and the installed package.
+**On AI in this review.** The review was a single pass — there was no separate
+second-opinion round, so there is nothing to report here about one reviewer catching what
+another missed. The AI error that *is* documented for this session is the PrimeNG
+version drift (PROMPTS.md §6), which is verifiable against the build output and the
+installed package.
 
 ---
 
