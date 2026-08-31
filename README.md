@@ -23,6 +23,9 @@ and the answers to Section 6 in **[REFLECTION.md](REFLECTION.md)**.
 ## Run it
 
 Prerequisites: **Python 3.10+** and **Node 20+**. Nothing else — no database, no Docker.
+Verified on CPython 3.10, 3.11, 3.13 and 3.14 (`requirements.txt` uses version floors so
+pip resolves a prebuilt wheel on each — an exact pin of pydantic would try to compile
+pydantic-core from Rust on 3.14 and fail).
 
 ### 1. Backend (port 8000)
 
