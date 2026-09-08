@@ -126,13 +126,17 @@
   <div class="charts">
     <section class="card">
       <h2>Danceability vs energy</h2>
-      <p-chart type="scatter" [data]="scatterData()" [options]="scatterOptions" height="300px" />
+      @if (scatterData()) {
+        <p-chart type="scatter" [data]="scatterData()" [options]="scatterOptions" height="300px" />
+      }
       <p class="note">{{ missingNote() }}</p>
     </section>
 
     <section class="card">
       <h2>What the two exports got wrong</h2>
+      @if (qualityData()) {
       <p-chart type="bar" [data]="qualityData()" [options]="barOptions" height="300px" />
+      }
       <p class="note">
         Count of values per attribute that were missing, out of range, or a sentinel
         such as <code>"N/A"</code> — dropped rather than guessed.
